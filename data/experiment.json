@@ -1,0 +1,218 @@
+{
+  "title": "Determination of Hardness of Water",
+
+  "apparatus": [
+
+    {
+      "id": "flask",
+      "name": "Volumetric Flask",
+      "model": "flask",
+      "description": "Used to prepare solutions of an accurate fixed volume. Its narrow neck helps ensure precise concentration during solution preparation.",
+      "position": [-2,0.1,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+
+    {
+      "id": "funnel",
+      "name": "Funnel",
+      "model": "funnel",
+      "description": "Used to transfer liquids or powders into containers without spilling. It also supports filtration when used with filter paper.",
+      "position": [-2,1,0],
+      "rotation": [3.14159,0,0],
+      "scale": [1,0.5,1]
+    },
+
+    {
+      "id": "edtaCrystals",
+      "name": "EDTA Crystals",
+      "model": "edtaCrystals",
+      "description": "EDTA crystals are used to prepare the standard titrant solution. They react with metal ions to determine water hardness.",
+      "position": [-2,0.2,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "beaker",
+      "name": "Beaker",
+      "model": "beaker",
+      "description": "A general-purpose laboratory container used for mixing, heating, and holding liquids. It provides approximate volume measurements.",
+      "position": [-2,0.1,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "burette",
+      "name": "Burette",
+      "model": "burette",
+      "description": "A graduated glass tube used to dispense liquids accurately during titration. It allows controlled delivery of the titrant drop by drop.",
+      "position": [-2,0.2,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "pipette",
+      "name": "Pipette",
+      "model": "pipette",
+      "description": "Used to measure and transfer a fixed volume of liquid with high precision. Commonly used for collecting the sample solution.",
+      "position": [-2,3.1,-1.5],
+      "rotation": [0,1.570795,1.570795],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "balance",
+      "name": "Electric Balance",
+      "model": "balance",
+      "description": "An electronic instrument used to measure the mass of chemicals accurately. It ensures precise weighing before solution preparation.",
+      "position": [-2,0.1,0],
+      "rotation": [0,0,0],
+      "scale": [0.5,0.5,0.5]
+    },
+    {
+      "id": "washBottle",
+      "name": "Wash bottle",
+      "model": "washBottle",
+      "description": "A squeeze bottle used to dispense distilled water for rinsing glassware or adding small amounts of water during experiments.",
+      "position": [-2,0.2,0],
+      "rotation": [0,0,0],
+      "scale": [0.5,0.5,0.5]
+    },
+    {
+      "id": "weighingBottle",
+      "name": "Weighing Bottle",
+      "model": "weighingBottle",
+      "description": "A small container used to safely hold and transfer solid chemicals during weighing. It helps prevent contamination and material loss.",
+      "position": [-2,-0.3,0],
+      "rotation": [0,0,0],
+      "scale": [0.5,0.5,0.5]
+    }
+  ],
+  
+  "procedure": [
+    {
+      "id": "weigh_edta",
+      "title": "Weigh EDTA Crystals",
+      "substeps": [
+        {
+          "id": "show_balance",
+          "task": "Place the electronic balance on the table.",
+          "object": "balance",
+          "animation": "appear"
+        },
+        {
+          "id": "place_weighing_bottle",
+          "task": "Place the weighing bottle on the balance.",
+          "object": "weighingBottle",
+          "target": "balance",
+          "animation": "moveToObject"
+        },
+        {
+          "id": "show_edta",
+          "task": "Bring the EDTA crystals near the balance.",
+          "object": "edtaCrystals",
+          "animation": "appear"
+        },
+        {
+          "id": "pour_edta",
+          "task": "Transfer EDTA crystals into the weighing bottle.",
+          "object": "edtaCrystals",
+          "target": "weighingBottle",
+          "animation": "pourIntoObject"
+        },
+        {
+          "id": "reach_mass",
+          "task": "Adjust the quantity until the balance reads 0.372 g.",
+          "object": "balance",
+          "requiredMass": 0.372,
+          "animation": "updateDisplay"
+        }
+      ]
+    },
+
+    {
+      "id": "transfer_flask",
+      "title": "Transfer to Volumetric Flask",
+      "substeps": [
+        {
+          "id": "place_flask",
+          "task": "Place the volumetric flask on the table.",
+          "object": "flask",
+          "animation": "appear"
+        },
+        {
+          "id": "place_funnel",
+          "task": "Insert the funnel into the flask.",
+          "object": "funnel",
+          "target": "flask",
+          "animation": "moveToObject"
+        },
+        {
+          "id": "pour_weighing_bottle",
+          "task": "Pour the weighed EDTA crystals into the flask through the funnel.",
+          "object": "weighingBottle",
+          "target": "funnel",
+          "animation": "pourIntoObject"
+        },
+        {
+          "id": "remove_funnel",
+          "task": "Remove the funnel from the flask.",
+          "object": "funnel",
+          "animation": "removeObject"
+        }
+      ]
+    },
+
+    {
+      "id": "add_water",
+      "title": "Add Distilled Water",
+      "substeps": [
+        {
+          "id": "bring_wash_bottle",
+          "task": "Bring the wash bottle near the flask.",
+          "object": "washBottle",
+          "animation": "appear"
+        },
+        {
+          "id": "fill_half",
+          "task": "Add distilled water until the flask is about half full.",
+          "object": "washBottle",
+          "target": "flask",
+          "animation": "pourLiquid"
+        },
+        {
+          "id": "swirl_solution",
+          "task": "Swirl the flask gently to dissolve the EDTA crystals.",
+          "object": "flask",
+          "animation": "swirl"
+        },
+        {
+          "id": "fill_mark",
+          "task": "Add distilled water up to the calibration mark.",
+          "object": "washBottle",
+          "target": "flask",
+          "animation": "fillToMark"
+        }
+      ]
+    },
+
+    {
+      "id": "mix_solution",
+      "title": "Mix the Solution",
+      "substeps": [
+        {
+          "id": "close_flask",
+          "task": "Close the volumetric flask with its stopper.",
+          "object": "flask",
+          "animation": "closeStopper"
+        },
+        {
+          "id": "invert_flask",
+          "task": "Invert the flask several times to ensure uniform mixing.",
+          "object": "flask",
+          "animation": "invert"
+        }
+      ]
+    }
+  ]
+}
+  

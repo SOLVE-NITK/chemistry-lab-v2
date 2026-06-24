@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemistry Lab Simulator</title>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind Dark Mode -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body
+  class="
+    bg-slate-100
+    dark:bg-slate-900
+    text-slate-900
+    dark:text-white
+    overflow-hidden
+  "
+>
+
+  <!-- MAIN CONTAINER -->
+
+  <div class="h-screen flex flex-col">
+
+    <!-- NAVBAR -->
+
+    <header
+      class="
+        h-16
+        bg-white/70
+        dark:bg-slate-800/70
+        backdrop-blur-md
+        border-b
+        border-slate-200
+        dark:border-slate-700
+
+        flex
+        items-center
+        justify-between
+
+        px-4
+      "
+    >
+
+      <!-- TITLE -->
+
+      <div>
+
+        <h1 class="text-xl font-bold">
+
+          Chemistry Lab Simulator
+
+        </h1>
+
+      </div>
+
+
+      <!-- RIGHT CONTROLS -->
+
+      <div class="flex items-center gap-3">
+
+        <!-- INFO -->
+
+        <button
+          id="infoBtn"
+
+          class="
+            px-4
+            py-2
+            rounded-xl
+            bg-cyan-500
+            hover:bg-cyan-600
+            text-white
+            transition
+          "
+        >
+
+          Info
+
+        </button>
+
+
+        <!-- THEME TOGGLE -->
+
+        <button
+          id="themeToggle"
+
+          class="
+            w-10
+            h-10
+            rounded-full
+            bg-slate-200
+            dark:bg-slate-700
+
+            flex
+            items-center
+            justify-center
+
+            text-xl
+          "
+        >
+
+          🌙
+
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <div class="flex flex-1 overflow-hidden">
+
+      <!-- SIDEBAR -->
+
+      <aside
+
+class="
+  hidden
+  md:flex
+
+  shrink-0
+
+  w-[320px]
+  lg:w-[380px]
+  xl:w-[420px]
+
+  flex-col
+
+  overflow-y-auto
+
+  bg-white/60
+  dark:bg-slate-800/60
+
+  backdrop-blur-md
+
+  border-r
+  border-slate-200
+  dark:border-slate-700
+"
+>
+
+        <!-- PROCEDURE -->
+
+        <div class="p-4 border-b dark:border-slate-700">
+
+          <h2 class="font-bold mb-3">
+
+            Procedure
+
+          </h2>
+
+          <div
+            id="procedurePanel"
+            class="
+              space-y-2
+              overflow-y-auto
+              max-h-64
+            "
+          >
+
+            <div
+              class="
+                p-3
+                rounded-xl
+                bg-cyan-500/20
+              "
+            >
+
+              Step 1:
+              Weigh EDTA bottle
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- APPARATUS -->
+
+        <div class="p-4 flex-1 overflow-y-auto">
+
+          <h2 class="font-bold mb-3">
+
+            Apparatus
+
+          </h2>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            <button class="lab-btn">
+              Flask
+            </button>
+
+            <button class="lab-btn">
+              Burette
+            </button>
+
+            <button class="lab-btn">
+              Funnel
+            </button>
+
+            <button class="lab-btn">
+              Pipette
+            </button>
+
+          </div>
+
+        </div>
+
+      </aside>
+
+
+      <!-- 3D SCENE -->
+
+      <main class="flex-1 relative p-2">
+
+        <!-- THREE JS -->
+
+        <div id="app"></div>
+
+
+        <!-- FLOATING CONTROLS -->
+
+        <div
+
+          class="
+            absolute
+            bottom-4
+            left-1/2
+            -translate-x-1/2
+
+            flex
+
+            bg-white/70
+            dark:bg-slate-800/70
+
+            backdrop-blur-md
+
+            p-3
+
+            rounded-2xl
+            shadow-xl
+          "
+        >
+
+          <button class="control-btn">
+
+            ▶ Start
+
+          </button>
+
+          <button class="control-btn">
+
+            ↺ Reset
+
+          </button>
+
+          <button class="control-btn">
+
+            ➜ Next
+
+          </button>
+
+        </div>
+
+      </main>
+
+    </div>
+
+
+    <!-- MOBILE BOTTOM BAR -->
+
+    <div
+
+      class="
+        md:hidden
+
+        h-16
+
+        bg-white/70
+        dark:bg-slate-800/70
+
+        backdrop-blur-md
+
+        border-t
+        border-slate-200
+        dark:border-slate-700
+
+        flex
+        justify-around
+        items-center
+      "
+    >
+
+      <button>Procedure</button>
+
+      <button>Apparatus</button>
+
+      <button>Quiz</button>
+
+    </div>
+
+  </div>
+
+
+  <!-- THEME SCRIPT -->
+
+  <script>
+
+    const toggle =
+      document.getElementById(
+        "themeToggle"
+      );
+
+    toggle.addEventListener(
+      "click",
+      () => {
+
+        document.documentElement
+          .classList.toggle("dark");
+      }
+    );
+
+  </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+Mobile procedurePanel
+
+ <!-- MOBILE PANELS -->
+
+    <div class="mobile-panel">
+
+      <!---------
+      ------------ PROCEDURE -->
+
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-header active">
+          📘 Procedure
+        </button>
+        <div class="mobile-accordion-content">
+          Procedure steps here
+        </div>
+      </div>
+      <!-- APPARATUS -->
+
+      <div class="mobile-accordion">
+        <button class="mobile-accordion-header">
+          🧪 Apparatus
+        </button>
+        <div class="mobile-accordion-content">
+          Apparatus buttons here
+        </div>
+      </div>
+    </div>
+
+
+    experiment config file
+    {
+  "title": "Determination of Hardness of Water",
+
+  "apparatus": [
+
+    {
+      "id": "flask",
+      "name": "Volumetric Flask",
+      "model": "flask",
+      "description": "Used for preparing standard solution.",
+      "position": [-1.5,0.2,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+
+    {
+      "id": "funnel",
+      "name": "Funnel",
+      "model": "funnel",
+      "description": "Used for transferring crystals.",
+      "position": [0,0.2,0.5],
+      "rotation": [3.14159,0,0],
+        "scale": [1,0.5,1]
+    },
+
+    {
+      "id": "edtaCrystals",
+      "name": "EDTA Crystals",
+      "model": "edtaCrystals",
+      "position": [0,-1.7,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "beaker",
+      "name": "Beaker",
+      "model": "beaker",
+      "position": [0,-1.7,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "burette",
+      "name": "Burette",
+      "model": "burette",
+      "position": [0,-1.7,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "pipette",
+      "name": "Pipette",
+      "model": "pipette",
+      "position": [0,1.2,-1.2],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "balance",
+      "name": "Electric Balance",
+      "model": "balance",
+      "position": [0,-1.7,0],
+      "rotation": [0,0,0],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "washBottle",
+      "name": "Wash bottle",
+      "model": "washBottle",
+      "position": [0,-1.7,0],
+      "rotation": [0.5,0.5,0.5],
+      "scale": [1,1,1]
+    },
+    {
+      "id": "weighingBottle",
+      "name": "Weighing Bottle",
+      "model": "weighingBottle",
+      "position": [0,-2.4,0],
+      "rotation": [0.5,0.5,0.5],
+      "scale": [1,1,1]
+    }
+  ],
+
+  "procedure": [
+
+    {
+      "step": 1,
+      "title": "Weigh EDTA bottle",
+      "action": "weighBottle"
+    },
+
+    {
+      "step": 2,
+      "title": "Place Funnel",
+      "action": "placeFunnel"
+    },
+
+    {
+      "step": 3,
+      "title": "Transfer Crystals",
+      "action": "pourCrystals"
+    }
+
+  ],
+
+  "quiz": [
+
+    {
+      "id": 1,
+
+      "type": "identify",
+
+      "question":
+      "Identify the apparatus shown.",
+
+      "object":
+      "funnel",
+
+      "options": [
+
+        "Funnel",
+        "Pipette",
+        "Burette",
+        "Beaker"
+
+      ],
+
+      "answer":
+      "Funnel"
+    }
+
+  ]
+}
+
+
+place objects based on height
+const box =
+new THREE.Box3().setFromObject(object);
+
+const size =
+new THREE.Vector3();
+
+box.getSize(size);
+
+const height = size.y;
+
+object.position.set(
+  config.x,
+  TABLE_TOP_Y + height / 2,
+  config.z
+);
+
+
+<div id="apparatusContent" class="apparatus-group accordion-content">
+            <input type="radio" id="steel" name="apparatus" checked>
+            <label for="steel" class="apparatus-card">
+              <div class="apparatus-info">
+                <span class="title">Steel</span>
+                <span class="desc">Structural Material</span>
+              </div>
+              <span class="apparatus-ans">✅</span>
+            </label>
+            <input type="radio" id="steel11" name="apparatus" checked>
+            <label for="steel11" class="apparatus-card">
+              <div class="apparatus-info">
+                <span class="title">Steel</span>
+                <span class="desc">Structural Material</span>
+              </div>
+              <span class="apparatus-ans">✅</span>
+            </label>
+            <input type="radio" id="steel22" name="apparatus" checked>
+            <label for="steel22" class="apparatus-card">
+              <div class="apparatus-info">
+                <span class="title">Steel</span>
+                <span class="desc">Structural Material</span>
+              </div>
+              <span class="apparatus-ans">✅</span>
+            </label>
+            <input type="radio" id="steel33" name="apparatus" checked>
+            <label for="steel33" class="apparatus-card">
+              <div class="apparatus-info">
+                <span class="title">Steel</span>
+                <span class="desc">Structural Material</span>
+              </div>
+              <span class="apparatus-ans">✅</span>
+            </label>
+
+            <input type="radio" id="aluminum" name="apparatus">
+            <label for="aluminum" class="apparatus-card">
+              <div class="apparatus-info">
+                <span class="title">Aluminum</span>
+                <span class="desc">Lightweight Metal</span>
+              </div>
+              <span class="apparatus-ans">❌</span>
+            </label>
+
+            <input type="radio" id="wood" name="apparatus">
+            <label for="wood" class="apparatus-card">
+              <div class="apparatus-info">
+                <span class="title">Wood</span>
+                <span class="desc">Natural Material</span>
+              </div>
+              <span class="ans">❌</span>
+            </label>
+          </div>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+  <title>
+    Chemistry Lab Simulator
+  </title>
+  <!-- CUSTOM CSS -->
+  <link
+    rel="stylesheet"
+    href="./css/style.css"
+  />
+ <!-- Import Map -->
+
+  <script type="importmap">
+
+  {
+    "imports": {
+
+      "three":
+      "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+
+      "three/addons/":
+      "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+
+  </script>
+</head>
+
+<body>
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-card">
+      <h1>🧪 Chemistry Lab Simulator</h1>
+      <p id="loadingText">
+        Preparing laboratory...
+      </p>
+      <div class="progress">
+        <div
+          id="progressBar"
+          class="progress-fill">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- MAIN APP -->
+  <div class="app-container">
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="navbar-header">
+        <h1 class="navbar-item heading-lg">
+          ⚗️Determination of Hardness of Water🧪
+        </h1>
+      </div>
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <button
+            id="themeBtn"
+            class="button theme-btn"
+            title="Toggle Theme"
+          >
+            🌙
+          </button>
+        </div>
+      </div>
+    </nav>
+    <!-- MAIN LAYOUT -->
+    <div class="main-layout">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <!-- INSTRUCTIONS -->
+        <!-- Instructions Accordion -->
+      <div class="instruction-panel accordion">
+          <button class="accordion-header active">
+            <div class="accordion-left">
+              <span class="accordion-icon">📋</span>
+              <span class="accordion-title">
+                 Instructions
+              </span>
+            </div>
+            <span class="accordion-arrow">
+              ▼
+            </span>
+          </button>
+          <div id="instructionContent" class="instruction-group accordion-content">
+            <h4 id="instructionTitle">
+            </h4>
+
+            <ol id="instructionList">
+              <!-- Filled dynamically -->
+            </ol>
+          </div>
+        </div>
+        <!-- APPARATUS -->
+        <div class="apparatus-panel accordion">
+          <button class="accordion-header">
+            <div class="accordion-left">
+              <span class="accordion-icon">🧪</span>
+              <span class="accordion-title">
+                Apparatus
+              </span>
+            </div>
+            <span class="accordion-arrow">
+              ▼
+            </span>
+          </button>
+          <div id="apparatusContent" class="apparatus-group accordion-content hide">
+            
+          </div>
+
+        </div>
+<!-- PROCEDURE -->
+        <div class="panel-box accordion procedure-panel">
+         <button class="accordion-header">
+            <div class="accordion-left">
+              <span class="accordion-icon">📃</span>
+              <span class="accordion-title">
+                Procedure
+              </span>
+            </div>
+            <span class="accordion-arrow">
+              ▼
+            </span>
+          </button>
+          <div  id="procedureContent"  class="procedure-list accordion-content hide">
+            
+          </div>
+        </div>
+      </aside>
+
+
+      <!-- 3D VIEW -->
+      <main class="scene-area">
+      <div id="currentTaskOverlay" class="current-task-overlay">
+        <div class="current-task-header">
+          <div class="task-left">
+            <span class="task-icon">🎯</span>
+
+            <div class="task-title-group">
+              <span class="task-title">Current Task</span>
+              <span id="taskProgress" class="task-progress">
+              </span>
+            </div>
+          </div>
+
+          <button
+            id="toggleTaskBtn"
+            class="task-toggle-btn"
+            aria-label="Toggle Current Task"
+          >
+            ▲
+          </button>
+
+        </div>
+
+        <div id="currentTaskBody" class="current-task-body">
+          <div id="currentTaskText" class="task-description">
+          We start with apparatus identification
+          </div>
+        </div>
+
+      </div>        
+        <div id="app">
+          
+        </div>
+        
+
+        <!-- CONTROLS -->
+        <div class="floating-controls">
+          <button class="btn btn-primary" id="start-btn">▶ Start</button>
+          <button class="btn btn-secondary" id="reset-btn" disabled>↺ Reset</button>
+          <button class="btn btn-success" id="next-btn" disabled>➜ Next</button>
+        </div>
+
+              <!-- MOBILE SHEET -->
+        <div id="mobileSheet" class="mobile-sheet">
+          <div id="sheetHandle" class="sheet-handle"></div>
+          <div class="mobile-tabs">
+            <button class="mobile-tab"  data-panel="instructions">
+              Instructions
+            </button>
+            <button class="mobile-tab"  data-panel="apparatus">
+              Apparatus
+            </button>
+            <button class="mobile-tab" data-panel="procedure">
+              Procedure
+            </button>
+          </div>
+          <div id="mobileSheetContent" class="mobile-content">
+        </div>
+      </div>            
+      </main>
+
+      <aside id="inspectorPanel" class="inspector-panel">
+        <div class="inspector-header">
+          <h3 id="previewTitle">Apparatus Preview</h3>
+          <button id="closeInspector">✖</button>
+        </div>
+
+        <div id="previewCanvas"></div>
+
+        <div class="inspector-info">
+          <p id="previewDescription">
+            Select an apparatus to inspect.
+          </p>
+        </div>
+      </aside>
+    </div>
+
+   
+  </div>
+<script defer type="module" src="./js/main.js"></script>
+</body>
+
+</html>
