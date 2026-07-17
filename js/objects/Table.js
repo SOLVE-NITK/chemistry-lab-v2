@@ -34,7 +34,7 @@ export function createTable(scene) {
   table.add(top);
 
   table.position.y = 0; // lift table
-  table.position.x = -1.5; // center table
+  table.position.x = -2.5; // center table
   table.name = "labTable";
 
   scene.add(table);

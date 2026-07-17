@@ -6,11 +6,17 @@ import {
 from
 "https://cdn.jsdelivr.net/npm/three@0.170/examples/jsm/controls/OrbitControls.js";
 
+// labView: {
+//     pos: [0, -6, 8],
+//     target: [0, -5, -10]
+//   }
+
 export function initScene() {
 const CAMERA_PRESETS = {
+  
   labView: {
-    pos: [0, -6, 5],
-    target: [0, -5, -5]
+    pos: [0, -2, 5],
+    target: [0, -12, -5]
   }
 };
   const container =
@@ -92,8 +98,9 @@ const CAMERA_PRESETS = {
 
   controls.maxPolarAngle = Math.PI / 2; // prevent going below table
 
-  controls.update();
 
+
+controls.update();
   // LIGHTS
 
   const directional =
@@ -104,7 +111,7 @@ const CAMERA_PRESETS = {
 
   directional.position.set(
     5,
-    5,
+    10,
     5
   );
 

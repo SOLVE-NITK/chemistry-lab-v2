@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { createScreenTexture } from "../textures/screenTextures.js";
-
+import { registerSceneObject } from "../registry/sceneRegistry.js";
 export function createBalance() {
 
   const balance = new THREE.Group();
@@ -133,5 +133,20 @@ export function createBalance() {
   balance.scale.set(0.5, 0.5, 0.5);
 
   balance.name = "balance";
+
+  const panSnap = new THREE.Object3D();
+
+  panSnap.position.set(
+      0,
+      0.12,
+      0
+  );
+
+  balance.add(panSnap);
+
+  registerSceneObject(
+      "balance_pan",
+      panSnap
+  );
   return balance;
 }

@@ -1,21 +1,35 @@
 export function animateAppear(object) {
-  console.log(object)
-  let scale = 0;
-  let scaleLimit = object.name === "washbottle" || object.name === "balance" ? 0.5 : 1;
-// start invisible
-  object.scale.set(0, 0, 0);
-  function grow() {
 
-    scale += 0.05;
+    // Save the current scale before shrinking
+    const finalScale = object.scale.clone();
 
-    object.scale.set(scale, scale, scale);
+    // Start from tiny scale
+    object.scale.set(0.01, 0.01, 0.01);
 
-    if (scale < scaleLimit) {
-      requestAnimationFrame(grow);
-    } else {
-        object.scale.set(scaleLimit, scaleLimit, scaleLimit);
+    let progress = 0;
+
+    function grow(){
+
+        progress += 0.08;
+
+        object.scale.set(
+            finalScale.x * progress,
+            finalScale.y * progress,
+            finalScale.z * progress
+        );
+
+        if(progress < 1){
+
+            requestAnimationFrame(grow);
+
+        } else {
+
+            object.scale.copy(finalScale);
+
+        }
+
     }
-  }
 
-  grow();
+    grow();
+
 }

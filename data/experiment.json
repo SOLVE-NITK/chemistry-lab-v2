@@ -87,132 +87,556 @@
       "scale": [0.5,0.5,0.5]
     }
   ],
+
+ "workbenchLayout": [
+
+  {
+    "id": "balance",
+    "position": [-4.8, 0.1, -0.7],
+    "rotation": [0,0,0],
+    "scale": [0.5,0.5,0.5]
+  },
+
+  {
+    "id": "weighingBottle",
+    "position": [-3,-0.3,1.5],
+    "rotation": [0,0,0],
+    "scale": [0.5,0.5,0.5]
+  },
+
+  {
+    "id": "edtaCrystals",
+    "position": [-1.8,0.2,1.2],
+    "rotation": [0,0,0],
+    "scale": [1,1,1]
+  },
+
+  {
+    "id": "beaker",
+    "position": [-4.2,0.1,1.35],
+    "rotation": [0,0,0],
+    "scale": [1,1,1]
+  },
+
+  {
+    "id": "flask",
+    "position": [-0.5,0.1,1.2],
+    "rotation": [0,0,0],
+    "scale": [1,1,1]
+  },
+
+  {
+    "id": "funnel",
+    "position": [0.8,1,1.25],
+    "rotation": [3.14159,0,0],
+    "scale": [1,0.5,1]
+  },
+
+  {
+    "id": "washBottle",
+    "position": [-5.45,0.15,1.25],
+    "rotation": [0,0,0],
+    "scale": [0.5,0.5,0.5]
+  },
+
+  {
+    "id": "pipette",
+    "position": [-6.2,3.1,-1.05],
+    "rotation": [0,1.5708,1.5708],
+    "scale": [1,1,1]
+  },
+
+  {
+    "id": "burette",
+    "position": [-0.75,0.1,-0.55],
+    "rotation": [0,0,0],
+    "scale": [1,1,1]
+  }
+
+],
   
   "procedure": [
+
+{
+  "id": "weigh_edta",
+  "title": "Weigh EDTA Crystals",
+  "substeps": [
+
     {
-      "id": "weigh_edta",
-      "title": "Weigh EDTA Crystals",
-      "substeps": [
-        {
-          "id": "show_balance",
-          "task": "Place the electronic balance on the table.",
-          "object": "balance",
-          "animation": "appear"
-        },
-        {
-          "id": "place_weighing_bottle",
-          "task": "Place the weighing bottle on the balance.",
-          "object": "weighingBottle",
-          "target": "balance",
-          "animation": "moveToObject"
-        },
-        {
-          "id": "show_edta",
-          "task": "Bring the EDTA crystals near the balance.",
-          "object": "edtaCrystals",
-          "animation": "appear"
-        },
-        {
-          "id": "pour_edta",
-          "task": "Transfer EDTA crystals into the weighing bottle.",
-          "object": "edtaCrystals",
-          "target": "weighingBottle",
-          "animation": "pourIntoObject"
-        },
-        {
-          "id": "reach_mass",
-          "task": "Adjust the quantity until the balance reads 0.372 g.",
-          "object": "balance",
-          "requiredMass": 0.372,
-          "animation": "updateDisplay"
-        }
-      ]
+      "id": "place_weighingBottle",
+      "task": "Place the weighing bottle on the electronic balance.",
+      "instruction": "Drag the weighing bottle onto the balance.",
+      "object": "weighingBottle",
+      "target": "balance",
+        "snapPoint":"balance_pan",
+      "interaction": "dragToTarget",
+
+      "animation": {
+        "type": "moveToObject",
+        "duration": 800
+      },
+
+      "cameraFocus": {
+        "target": "balance",
+        "duration": 600
+      },
+
+      "scene": {
+        "show": [
+          "balance",
+          "weighingBottle"
+        ],
+        "hide": [
+          "flask",
+          "funnel",
+          "washBottle",
+          "beaker",
+          "pipette",
+          "burette",
+          "edtaCrystals"
+        ],
+        "highlight": [
+          "balance"
+        ]
+      },
+
+      "feedback": {
+        "success": "Weighing bottle placed successfully.",
+        "failure": "Drag the weighing bottle onto the balance."
+      }
     },
 
     {
-      "id": "transfer_flask",
-      "title": "Transfer to Volumetric Flask",
-      "substeps": [
-        {
-          "id": "place_flask",
-          "task": "Place the volumetric flask on the table.",
-          "object": "flask",
-          "animation": "appear"
-        },
-        {
-          "id": "place_funnel",
-          "task": "Insert the funnel into the flask.",
-          "object": "funnel",
-          "target": "flask",
-          "animation": "moveToObject"
-        },
-        {
-          "id": "pour_weighing_bottle",
-          "task": "Pour the weighed EDTA crystals into the flask through the funnel.",
-          "object": "weighingBottle",
-          "target": "funnel",
-          "animation": "pourIntoObject"
-        },
-        {
-          "id": "remove_funnel",
-          "task": "Remove the funnel from the flask.",
-          "object": "funnel",
-          "animation": "removeObject"
-        }
-      ]
+      "id": "pour_edta",
+      "task": "Transfer EDTA crystals into the weighing bottle.",
+      "instruction": "Drag the EDTA bottle onto the weighing bottle.",
+
+      "object": "edtaCrystals",
+      "target": "weighingBottle",
+
+      "interaction": "dragToTarget",
+
+      "animation": {
+        "type": "pourIntoObject",
+        "duration": 1200
+      },
+
+      "cameraFocus": {
+        "target": "weighingBottle",
+        "duration": 600
+      },
+
+      "scene": {
+        "show": [
+          "balance",
+          "weighingBottle",
+          "edtaCrystals"
+        ],
+        "highlight": [
+          "weighingBottle"
+        ]
+      },
+
+      "state": {
+        "filled": [
+          "weighingBottle"
+        ],
+        "empty": [
+          "edtaCrystals"
+        ]
+      },
+
+      "feedback": {
+        "success": "EDTA transferred successfully.",
+        "failure": "Transfer the EDTA crystals into the weighing bottle."
+      }
     },
 
     {
-      "id": "add_water",
-      "title": "Add Distilled Water",
-      "substeps": [
-        {
-          "id": "bring_wash_bottle",
-          "task": "Bring the wash bottle near the flask.",
-          "object": "washBottle",
-          "animation": "appear"
-        },
-        {
-          "id": "fill_half",
-          "task": "Add distilled water until the flask is about half full.",
-          "object": "washBottle",
-          "target": "flask",
-          "animation": "pourLiquid"
-        },
-        {
-          "id": "swirl_solution",
-          "task": "Swirl the flask gently to dissolve the EDTA crystals.",
-          "object": "flask",
-          "animation": "swirl"
-        },
-        {
-          "id": "fill_mark",
-          "task": "Add distilled water up to the calibration mark.",
-          "object": "washBottle",
-          "target": "flask",
-          "animation": "fillToMark"
-        }
-      ]
-    },
+      "id": "adjust_weight",
+      "task": "Adjust the balance reading to exactly 0.372 g.",
+      "instruction": "Move the slider until the balance displays 0.372 g.",
 
-    {
-      "id": "mix_solution",
-      "title": "Mix the Solution",
-      "substeps": [
-        {
-          "id": "close_flask",
-          "task": "Close the volumetric flask with its stopper.",
-          "object": "flask",
-          "animation": "closeStopper"
-        },
-        {
-          "id": "invert_flask",
-          "task": "Invert the flask several times to ensure uniform mixing.",
-          "object": "flask",
-          "animation": "invert"
-        }
-      ]
+      "object": "balance",
+
+      "interaction": "slider",
+
+      "requiredMass": 0.372,
+
+      "animation": {
+        "type": "updateDisplay",
+        "duration": 1000
+      },
+
+      "cameraFocus": {
+        "target": "balance",
+        "duration": 500
+      },
+
+      "scene": {
+        "show": [
+          "balance",
+          "weighingBottle"
+        ],
+        "highlight": [
+          "balance"
+        ]
+      },
+
+      "feedback": {
+        "success": "Required mass achieved.",
+        "failure": "Adjust until the balance reads exactly 0.372 g."
+      }
     }
+
   ]
+},
+
+{
+  "id": "transfer_flask",
+  "title": "Transfer EDTA to Volumetric Flask",
+
+  "substeps": [
+
+    {
+      "id": "insert_funnel",
+
+      "task": "Insert the funnel into the volumetric flask.",
+
+      "instruction": "Drag the funnel into the flask.",
+
+      "object": "funnel",
+      "target": "flask",
+
+      "interaction": "dragToTarget",
+
+      "animation": {
+        "type": "moveToObject",
+        "duration": 900
+      },
+
+      "cameraFocus": {
+        "target": "flask",
+        "duration": 600
+      },
+
+      "scene": {
+
+        "show": [
+          "flask",
+          "funnel",
+          "weighingBottle"
+        ],
+
+        "hide": [
+          "balance",
+          "washBottle",
+          "pipette",
+          "burette",
+          "beaker"
+        ],
+
+        "highlight": [
+          "flask"
+        ]
+      },
+
+      "feedback": {
+        "success": "Funnel inserted.",
+        "failure": "Insert the funnel into the flask."
+      }
+    },
+
+    {
+      "id": "pour_edta_flask",
+
+      "task": "Transfer EDTA into the flask.",
+
+      "instruction": "Pour the contents through the funnel.",
+
+      "object": "weighingBottle",
+      "target": "funnel",
+
+      "interaction": "dragToTarget",
+
+      "animation": {
+        "type": "pourIntoObject",
+        "duration": 1500
+      },
+
+      "cameraFocus": {
+        "target": "funnel",
+        "duration": 600
+      },
+
+      "scene": {
+
+        "show": [
+          "flask",
+          "funnel",
+          "weighingBottle"
+        ],
+
+        "highlight": [
+          "funnel"
+        ]
+      },
+
+      "state": {
+
+        "filled": [
+          "flask"
+        ],
+
+        "empty": [
+          "weighingBottle"
+        ]
+      },
+
+      "feedback": {
+        "success": "EDTA transferred.",
+        "failure": "Pour the EDTA into the flask."
+      }
+    },
+
+    {
+      "id": "remove_funnel",
+
+      "task": "Remove the funnel.",
+
+      "instruction": "Drag the funnel away from the flask.",
+
+      "object": "funnel",
+
+      "interaction": "dragAway",
+
+      "animation": {
+        "type": "removeObject",
+        "duration": 700
+      },
+
+      "cameraFocus": {
+        "target": "funnel",
+        "duration": 500
+      },
+
+      "scene": {
+
+        "show": [
+          "flask",
+          "funnel"
+        ]
+      },
+
+      "feedback": {
+        "success": "Funnel removed.",
+        "failure": "Remove the funnel."
+      }
+    }
+
+  ]
+},
+
+{
+  "id": "prepare_solution",
+  "title": "Prepare EDTA Solution",
+
+  "substeps": [
+
+    {
+      "id": "fill_half",
+
+      "task": "Fill the flask halfway with distilled water.",
+
+      "instruction": "Pour distilled water into the flask.",
+
+      "object": "washBottle",
+      "target": "flask",
+
+      "interaction": "dragToTarget",
+
+      "animation": {
+        "type": "pourLiquid",
+        "duration": 2000
+      },
+
+      "cameraFocus": {
+        "target": "flask",
+        "duration": 600
+      },
+
+      "scene": {
+
+        "show": [
+          "washBottle",
+          "flask"
+        ],
+
+        "highlight": [
+          "flask"
+        ]
+      },
+
+      "feedback": {
+        "success": "Water added.",
+        "failure": "Pour water into the flask."
+      }
+    },
+
+    {
+      "id": "swirl",
+
+      "task": "Swirl the flask until the EDTA dissolves.",
+
+      "instruction": "Rotate the flask gently.",
+
+      "object": "flask",
+
+      "interaction": "dragRotate",
+
+      "animation": {
+        "type": "swirl",
+        "duration": 1800
+      },
+
+      "cameraFocus": {
+        "target": "flask",
+        "duration": 500
+      },
+
+      "scene": {
+
+        "show": [
+          "flask"
+        ]
+      },
+
+      "feedback": {
+        "success": "EDTA dissolved.",
+        "failure": "Rotate the flask gently."
+      }
+    },
+
+    {
+      "id": "fill_mark",
+
+      "task": "Fill the flask up to the calibration mark.",
+
+      "instruction": "Continue filling until the mark is reached.",
+
+      "object": "washBottle",
+      "target": "flask",
+
+      "interaction": "dragToTarget",
+
+      "animation": {
+        "type": "fillToMark",
+        "duration": 2200
+      },
+
+      "cameraFocus": {
+        "target": "flask",
+        "duration": 600
+      },
+
+      "scene": {
+
+        "show": [
+          "washBottle",
+          "flask"
+        ],
+
+        "highlight": [
+          "flask"
+        ]
+      },
+
+      "feedback": {
+        "success": "Calibration mark reached.",
+        "failure": "Fill until the calibration mark."
+      }
+    }
+
+  ]
+},
+
+{
+  "id": "mix_solution",
+  "title": "Mix the Solution",
+
+  "substeps": [
+
+    {
+      "id": "close_flask",
+
+      "task": "Close the flask with the stopper.",
+
+      "instruction": "Click the stopper to close the flask.",
+
+      "object": "flask",
+
+      "interaction": "click",
+
+      "animation": {
+        "type": "closeStopper",
+        "duration": 800
+      },
+
+      "cameraFocus": {
+        "target": "flask",
+        "duration": 500
+      },
+
+      "scene": {
+
+        "show": [
+          "flask"
+        ]
+      },
+
+      "feedback": {
+        "success": "Flask closed.",
+        "failure": "Close the flask."
+      }
+    },
+
+    {
+      "id": "invert",
+
+      "task": "Invert the flask several times to mix the solution.",
+
+      "instruction": "Rotate the flask upside down several times.",
+
+      "object": "flask",
+
+      "interaction": "dragRotate",
+
+      "animation": {
+        "type": "invert",
+        "duration": 2500
+      },
+
+      "cameraFocus": {
+        "target": "flask",
+        "duration": 500
+      },
+
+      "scene": {
+
+        "show": [
+          "flask"
+        ]
+      },
+
+      "feedback": {
+        "success": "Solution mixed successfully.",
+        "failure": "Invert the flask several times."
+      }
+    }
+
+  ]
+}
+
+]
 }
   

@@ -1297,6 +1297,62 @@ h1,h2,h3,h4,h5,h6{
   text-align:center;
 }
 
+.procedure-substep{
+
+    display:flex;
+
+    gap:0.8rem;
+
+    align-items:flex-start;
+
+    padding:.6rem 0;
+
+    border-left:3px solid transparent;
+
+}
+
+.substep-content{
+
+    flex:1;
+
+}
+
+.substep-task{
+
+    font-weight:500;
+
+}
+
+.substep-status{
+
+    font-size:.8rem;
+
+    opacity:.75;
+
+}
+
+.procedure-substep.pending{
+
+    opacity:.6;
+
+}
+
+.procedure-substep.active{
+
+    background:#eef6ff;
+
+    border-left-color:#3b82f6;
+
+}
+
+.procedure-substep.completed{
+
+    background:#eefdf2;
+
+    border-left-color:#22c55e;
+
+}
+
 /* =========================
    MEDIA QUERIES
 ========================= */

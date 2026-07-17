@@ -1,3 +1,4 @@
+import { sceneRegistry,getSceneObject } from "../registry/sceneRegistry.js";
 import { animateAppear } from "../animations/appear.js";
 import * as THREE from "three";
 
@@ -32,8 +33,93 @@ const height = size.y;
     ...config.scale
   );
 
+// store original scale
+object.userData.originalScale = object.scale.clone();
+
   scene.add(object);
 
   // animateAppear(object);
+
+}
+
+export function showObject(id){
+
+    const object = getSceneObject(id);
+
+    if(!object) return;
+
+    object.visible = true;
+
+    // animateAppear(object);
+
+}
+
+
+export function hideObject(id){
+
+    const object = getSceneObject(id);
+
+    if(!object) return;
+
+    object.visible = false;
+
+}
+
+
+export function showObjects(ids){
+
+    ids.forEach(id=>{
+
+        showObject(id);
+
+    });
+
+}
+
+
+export function hideObjects(ids){
+
+    ids.forEach(id=>{
+
+        hideObject(id);
+
+    });
+
+}
+
+
+
+export function hideAllObjects(){
+
+    Object.values(sceneRegistry).forEach(object=>{
+
+        object.visible = false;
+
+    });
+
+}
+
+
+export function showOnly(ids){
+
+    hideAllObjects();
+
+    showObjects(ids);
+
+}
+
+export function updateScene(sceneConfig){
+
+    if(sceneConfig.show){
+
+        showOnly(sceneConfig.show);
+
+    }
+
+    if(sceneConfig.hide){
+
+        hideObjects(sceneConfig.hide);
+
+    }
 
 }

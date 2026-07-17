@@ -1,3 +1,5 @@
+
+import { procedureState } from "../managers/procedureManager.js";
 export function populateProcedurePanel(
   experiment,
   currentStepIndex = 0,
@@ -26,25 +28,46 @@ export function populateProcedurePanel(
       const row = document.createElement("div");
       row.className = "procedure-substep";
 
-      let icon = "○";
+      const state =
+    procedureState.statuses?.[step.id]?.[subIndex]?.status ?? "pending";
+      let icon = "⭕";
+      let subtitle = "Pending";
 
-      if (stepIndex < currentStepIndex) {
-        icon = "✓";
-      } else if (
-        stepIndex === currentStepIndex &&
-        subIndex < currentSubstepIndex
-      ) {
-        icon = "✓";
-      } else if (
-        stepIndex === currentStepIndex &&
-        subIndex === currentSubstepIndex
-      ) {
-        icon = "▶";
+      switch (state) {
+
+        case "active":
+          icon = "🔵";
+          subtitle = "Ready";
+          break;
+
+        case "running":
+          icon = "🟡";
+          subtitle = "In Progress";
+          break;
+
+        case "completed":
+          icon = "✅";
+          subtitle = "Completed";
+          break;
+
       }
 
+      row.classList.add(state);
+
       row.innerHTML = `
-        <span class="substep-icon">${icon}</span>
-        <span>${substep.task}</span>
+          <span class="substep-icon">${icon}</span>
+
+          <div class="substep-content">
+
+              <div class="substep-task">
+                  ${substep.task}
+              </div>
+
+              <div class="substep-status">
+                  ${subtitle}
+              </div>
+
+          </div>
       `;
 
       subList.appendChild(row);

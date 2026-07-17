@@ -23,10 +23,7 @@ object.scale.lerp(finalScale, 0.1);
 
 // Usage: playAppearAnimation(balance);
 
-export function animateMoveToBalance(
-  object,
-  targetPosition
-) {
+export async function animateMoveToObject(substep) {
 
   function animate() {
 
@@ -50,7 +47,7 @@ export function animateMoveToBalance(
 // );
 
 
-export function animateCrystalPour(object) {
+export function animatePourIntoObject(object) {
 
   let angle = 0;
 
@@ -100,3 +97,34 @@ export function animateBalanceReading(
 // const display = document.getElementById("balanceReading");
 
 // animateBalanceReading(display, 0.372);
+
+
+export async function animateRemoveObject(substep){
+
+    console.log("Remove:", substep.object);
+
+}
+
+export async function animateSwirl(substep){
+
+    console.log("Swirl:", substep.object);
+
+}
+
+export async function animateFillToMark(substep){
+
+    console.log("Fill:", substep.object);
+
+}
+
+export async function animateInvert(substep){
+
+    console.log("Invert:", substep.object);
+
+}
+
+export async function animateCloseStopper(substep){
+
+    console.log("Close Stopper:", substep.object);
+
+}

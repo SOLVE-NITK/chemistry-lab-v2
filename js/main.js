@@ -2,6 +2,9 @@
 import { initScene }
 from "./logic/initScene.js";
 
+import { registerScene } from "./registry/sceneRegistry.js";
+
+
 import { createTable }
 from "./objects/Table.js";
 
@@ -23,6 +26,9 @@ from "./ui/mobileAccordion.js";
 import { initMobileSheet }
 from "./ui/mobileSheet.js";
 import { initFloatingControl } from "./ui/floatingControls.js";
+
+import { initControlPanel } from "./ui/controlPanel.js";
+import { appState } from "./managers/appStateManager.js";
 
 import { objectRegistry }
 from "./registry/objectRegistry.js";
@@ -77,12 +83,14 @@ updateLoader(
 );
 // SCENE
 
+const world = initScene();
+registerScene(world);
 const {
-  scene,
-  camera,
-  renderer,
-  controls
-} = initScene();
+    scene,
+    camera,
+    renderer,
+    controls
+} = world;
 
 createTable(scene);
 
@@ -128,6 +136,7 @@ initInstructionPanel()
 
 initPreview();
 
+
 document
   .getElementById("closeInspector")
   .addEventListener(
@@ -146,46 +155,11 @@ startAnimationLoop(
 
 
 // Control Buttons
-const startBtn = document.getElementById("start-btn");
-const resetBtn = document.getElementById("reset-btn");
-const nextBtn = document.getElementById("next-btn");
-
-
-
-
-
-// Start ApparatusDisplay
-startBtn.addEventListener('click',()=>startQuiz(scene,experiment,objectRegistry));
-
-
-// Next Apparatus DIsplay
-nextBtn.addEventListener('click',()=>nextQuestion(scene,experiment,objectRegistry));
-
-// OBJECTS
-// experiment.apparatus.forEach(item => {
-  
-  //   const factory =
-//     objectRegistry[item.id];
-
-//   if (!factory) {
-  
-//     console.error(
-  //       `No object registered for ${item.id}`
-//     );
-
-//     return;
-//   }
-
-//   const object = factory();
-
-//   showApparatus(
-  //     scene,
-//     object,
-//     item
-//   );
-
-// });
-
+initControlPanel(
+    scene,
+    experiment,
+    objectRegistry
+);
 
 
 

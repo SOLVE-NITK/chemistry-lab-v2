@@ -4,6 +4,9 @@ import { showApparatus } from "./apparatusManager.js";
 import { populateApparatusReviewPanel } from "../ui/apparatusPanel.js";
 import { setInstructions } from "../ui/instructionPanel.js";
 import { updateCurrentTask } from "../managers/taskManager.js";
+import { createWorkbench } from "../managers/workbenchManager.js";
+import { initControlPanel } from "../ui/controlPanel.js";
+import { appState } from "../managers/appStateManager.js";
 const nextBtn = document.getElementById("next-btn");
 const startBtn = document.getElementById("start-btn");
 
@@ -73,7 +76,8 @@ export function lockAnswer(experiment) {
 
 // Next Question
 export function nextQuestion(scene,experiment,objectRegistry){
-  console.log(quizState.currentQuestion,experiment.apparatus.length);
+  
+  // console.log(quizState.currentQuestion,experiment.apparatus.length);
   quizState.currentQuestion++;
   if(quizState.currentQuestion >= experiment.apparatus.length)
     {
@@ -81,17 +85,18 @@ export function nextQuestion(scene,experiment,objectRegistry){
       // Open Instructions
         openAccordion("instructionContent");
         setInstructions("Apparatus Identification is Complete🥳", [
-            "You can find the reference to apparatus by clicking 👁️ in the Apparatus Section",
-            "We go ahead with the experiment procedure step by step."
-          ]);
-
+          "You can find the reference to apparatus by clicking 👁️ in the Apparatus Section",
+          "We go ahead with the experiment procedure step by step."
+        ]);
       // desktop
       finishApparatusQuiz(experiment);
-          updateCurrentTask(
-  `Task Complete`,
-  0,
-  0
-);
+      startBtn.textContent = "Start Experiment";
+      startBtn.disabled = false;
+      nextBtn.disabled = true;
+      appState.phase = "procedure";
+      createWorkbench( scene, experiment,objectRegistry);
+      openAccordion("procedureContent");
+      updateCurrentTask(`Task Complete. We go ahead with the experiment procedure step by step.`,0,);
     }
   else {
       clearScene(scene);
@@ -101,7 +106,5 @@ export function nextQuestion(scene,experiment,objectRegistry){
 }
 
 export function finishApparatusQuiz(experiment, containerId = "apparatusContent") {
-  console.log("preview")
-
   populateApparatusReviewPanel(experiment, containerId);
 }
