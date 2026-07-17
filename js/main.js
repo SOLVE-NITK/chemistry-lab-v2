@@ -69,7 +69,7 @@ updateLoader(
 );
 // LOAD EXPERIMENT
 const experiment =
-await fetch("../data/experiment.json")
+await fetch("./data/experiment.json")
 .then(res=>res.json());
 
 
