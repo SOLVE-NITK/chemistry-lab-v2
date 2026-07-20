@@ -82,7 +82,7 @@
       "name": "Weighing Bottle",
       "model": "weighingBottle",
       "description": "A small container used to safely hold and transfer solid chemicals during weighing. It helps prevent contamination and material loss.",
-      "position": [-2,-0.3,0],
+      "position": [-2,0,0],
       "rotation": [0,0,0],
       "scale": [0.5,0.5,0.5]
     }
@@ -166,10 +166,12 @@
       "id": "place_weighingBottle",
       "task": "Place the weighing bottle on the electronic balance.",
       "instruction": "Drag the weighing bottle onto the balance.",
-      "object": "weighingBottle",
-      "target": "balance",
-        "snapPoint":"balance_pan",
-      "interaction": "dragToTarget",
+      "interaction":"dragToTarget",
+    "object":"weighingBottle",
+    "target":"balance",
+    "snap":"balanceSnap",
+    "snapDistance":0.45,
+      "placementOffset": [0, -0.8, 0],
 
       "animation": {
         "type": "moveToObject",

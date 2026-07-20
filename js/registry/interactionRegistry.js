@@ -7,8 +7,8 @@ import { enableSlider } from "../interactions/slider.js";
 export const interactionRegistry = {
     
     click: enableClick,
-
     dragToTarget: enableDrag,
+
 
     dragAway: enableDragAway,
 

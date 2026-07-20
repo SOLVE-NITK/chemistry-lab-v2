@@ -1,167 +1,223 @@
-
 import * as THREE from "three";
 import { createBottleLabel } from "../textures/labelTexture.js";
+import { registerSceneObject } from "../registry/sceneRegistry.js";
+
 export function createWeighingBottle() {
 
-  const bottle = new THREE.Group();
+    const bottle = new THREE.Group();
 
-  // =========================================
-  // GLASS MATERIAL
-  // =========================================
+    //---------------------------------------------------------
+    // Glass Material
+    //---------------------------------------------------------
 
-  const glassMaterial = new THREE.MeshPhysicalMaterial({
-    transmission: 1,
-    transparent: true,
-    opacity: 0.95,
-    roughness: 0.05,
-    thickness: 0.4,
-    ior: 1.45,
-    color: 0xe8f7ff,
-    envMapIntensity: 1.5,
-    side: THREE.DoubleSide
-  });
+    const glassMaterial = new THREE.MeshPhysicalMaterial({
 
-  // =========================================
-  // BOTTLE BODY
-  // =========================================
+        transmission: 1,
+        transparent: true,
+        opacity: 0.95,
+        roughness: 0.05,
+        thickness: 0.4,
+        ior: 1.45,
+        color: 0xe8f7ff,
+        envMapIntensity: 1.5,
+        side: THREE.DoubleSide
 
-  const body = new THREE.Mesh(
+    });
 
-    new THREE.CylinderGeometry(
-      0.4,   // top radius
-      0.4,   // bottom radius
-      1,   // height
-      128,
-      1,
-      true   // open ended
-    ),
+    //---------------------------------------------------------
+    // BODY
+    //---------------------------------------------------------
 
-    glassMaterial
-  );
+    const body = new THREE.Mesh(
 
-  body.position.y = 1.25;
+        new THREE.CylinderGeometry(
+            0.4,
+            0.4,
+            1,
+            128,
+            1,
+            true
+        ),
 
-  bottle.add(body);
+        glassMaterial
 
-  // =========================================
-  // BOTTOM DISC
-  // =========================================
+    );
 
-  const bottom = new THREE.Mesh(
+    // Bottom of cylinder starts at y = 0
+    body.position.y = 0.5;
 
-    new THREE.CircleGeometry(0.4, 128),
+    bottle.add(body);
 
-    glassMaterial
-  );
+    //---------------------------------------------------------
+    // Bottom Disc
+    //---------------------------------------------------------
 
-  bottom.rotation.x = -Math.PI / 2;
+    const bottom = new THREE.Mesh(
 
-  bottom.position.y = 0.8; // slight offset to prevent z-fighting
+        new THREE.CircleGeometry(0.4,128),
 
-  bottle.add(bottom);
+        glassMaterial
 
-  // =========================================
-  // TOP RIM
-  // =========================================
+    );
 
-  const rim = new THREE.Mesh(
+    bottom.rotation.x = -Math.PI/2;
 
-    new THREE.TorusGeometry(0.42, 0.03, 32, 100),
+    bottom.position.y = 0.001;
 
-    glassMaterial
-  );
+    bottle.add(bottom);
 
-  rim.rotation.x = Math.PI / 2;
+    //---------------------------------------------------------
+    // Top Rim
+    //---------------------------------------------------------
 
-  rim.position.y = 1.75;
+    const rim = new THREE.Mesh(
 
-  bottle.add(rim);
+        new THREE.TorusGeometry(
+            0.42,
+            0.03,
+            32,
+            100
+        ),
 
-  // =========================================
-  // STOPPER BASE
-  // =========================================
-  const stopper = new THREE.Group();
+        glassMaterial
 
-  const stopperBase = new THREE.Mesh(
+    );
 
-    new THREE.CylinderGeometry(
-      0.35,
-      0.35,
-      0.18,
-      64
-    ),
+    rim.rotation.x = Math.PI/2;
 
-    glassMaterial
-  );
+    rim.position.y = 1.0;
 
-  stopperBase.position.y = 2.62;
+    bottle.add(rim);
 
-  stopper.add(stopperBase);
+    //---------------------------------------------------------
+    // Stopper
+    //---------------------------------------------------------
 
-  // =========================================
-  // STOPPER KNOB
-  // =========================================
+    const stopper = new THREE.Group();
 
-  const stopperKnob = new THREE.Mesh(
+    const stopperBase = new THREE.Mesh(
 
-    new THREE.SphereGeometry(
-      0.28,
-      64,
-      64
-    ),
+        new THREE.CylinderGeometry(
+            0.35,
+            0.35,
+            0.18,
+            64
+        ),
 
-    glassMaterial
-  );
+        glassMaterial
 
-  stopperKnob.position.y = 3;
+    );
 
-  stopperKnob.scale.y = 1.1;
+    stopperBase.position.y = 1.12;
 
-  stopper.add(stopperKnob);
+    stopper.add(stopperBase);
 
-  stopper.position.y = -0.8;
+    const stopperKnob = new THREE.Mesh(
 
-  bottle.add(stopper);
+        new THREE.SphereGeometry(
+            0.28,
+            64,
+            64
+        ),
 
-  // =========================================
-  // TEXT LABEL
-  // =========================================
+        glassMaterial
 
-  const texture = createBottleLabel();
+    );
 
-  const label = new THREE.Mesh(
+    stopperKnob.scale.y = 1.1;
 
-    new THREE.PlaneGeometry(0.5, 0.25),
+    stopperKnob.position.y = 1.48;
 
-    new THREE.MeshBasicMaterial({
-      map: texture,
-      transparent: true
-    })
-  );
+    stopper.add(stopperKnob);
 
-  label.position.set(0, 1.2, 0.41);
+    bottle.add(stopper);
 
-  bottle.add(label);
+    //---------------------------------------------------------
+    // Label
+    //---------------------------------------------------------
 
-  // =========================================
-  // SHADOWS
-  // =========================================
+    const texture = createBottleLabel();
 
-  bottle.traverse((child) => {
+    const label = new THREE.Mesh(
 
-    if (child.isMesh) {
+        new THREE.PlaneGeometry(
+            0.5,
+            0.25
+        ),
 
-      child.castShadow = true;
-      child.receiveShadow = true;
+        new THREE.MeshBasicMaterial({
 
-    }
+            map:texture,
+            transparent:true
 
-  });
+        })
 
+    );
 
-  bottle.name = "weighingBottle";
-  bottle.scale.set(0.5,0.5,0.5);
+    label.position.set(
 
-  bottle.name= "weighingBottle";
-  return bottle;
+        0,
+        0.45,
+        0.41
+
+    );
+
+    bottle.add(label);
+
+    //---------------------------------------------------------
+    // Shadows
+    //---------------------------------------------------------
+
+    bottle.traverse(child=>{
+
+        if(child.isMesh){
+
+            child.castShadow=true;
+            child.receiveShadow=true;
+
+        }
+
+    });
+
+    //---------------------------------------------------------
+    // Scale
+    //---------------------------------------------------------
+
+    bottle.scale.set(
+
+        0.5,
+        0.5,
+        0.5
+
+    );
+
+    //---------------------------------------------------------
+    // Metadata
+    //---------------------------------------------------------
+
+    bottle.name="weighingBottle";
+
+    bottle.userData.id="weighingBottle";
+
+    //---------------------------------------------------------
+    // Debug
+    //---------------------------------------------------------
+
+    const box = new THREE.Box3().setFromObject(bottle);
+
+    console.log(
+        "Bottle Bounds",
+        box.min,
+        box.max
+    );
+
+    registerSceneObject(
+
+        "weighingBottle",
+        bottle
+
+    );
+
+    return bottle;
+
 }

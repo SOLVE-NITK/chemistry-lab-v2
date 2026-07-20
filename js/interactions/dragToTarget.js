@@ -1,23 +1,31 @@
 import { dragManager } from "../managers/dragManager.js";
 
-import {
-    completeCurrentSubstep
-} from "../managers/procedureManager.js";
-
-export function enableDrag(step){
+export function enableDrag(substep) {
 
     dragManager.enable(
 
-    step,
+        substep,
 
-    ()=>{
+        () => {
 
-        completeCurrentSubstep();
+            if (typeof substep.onComplete === "function") {
 
-    }
+                substep.onComplete();
 
-);
+            }
 
-    return dragManager;
+        }
+
+    );
+
+    return {
+
+        disable() {
+
+            dragManager.disable();
+
+        }
+
+    };
 
 }

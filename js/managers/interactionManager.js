@@ -1,16 +1,18 @@
 import { interactionRegistry } from "../registry/interactionRegistry.js";
-import { clearPointerEvents } from "./raycastManager.js";
 
-let currentHandler = null;
+let currentInteraction = null;
 
+/**
+ * Start interaction for current substep
+ */
 export function enableInteraction(substep) {
 
     disableInteraction();
 
-    const handler =
+    const interaction =
         interactionRegistry[substep.interaction];
 
-    if (!handler) {
+    if (!interaction) {
 
         console.warn(
             "Unknown interaction:",
@@ -20,30 +22,33 @@ export function enableInteraction(substep) {
         return;
     }
 
-    currentHandler = handler(substep);
+    currentInteraction = interaction(substep);
 
 }
 
+/**
+ * Stop current interaction
+ */
 export function disableInteraction() {
 
-    clearPointerEvents();
-
     if (
-        currentHandler &&
-        typeof currentHandler.disable === "function"
+        currentInteraction &&
+        typeof currentInteraction.disable === "function"
     ) {
 
-        currentHandler.disable();
+        currentInteraction.disable();
 
     }
 
-    currentHandler = null;
+    currentInteraction = null;
 
 }
 
-/*
-|--------------------------------------------------------------------------
-| Wrappers used by interaction files
-|--------------------------------------------------------------------------
-*/
+/**
+ * Returns active interaction
+ */
+export function getCurrentInteraction() {
 
+    return currentInteraction;
+
+}

@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { createScreenTexture } from "../textures/screenTextures.js";
 import { registerSceneObject } from "../registry/sceneRegistry.js";
+import { registerSnapPoint } from "../managers/snapPointManager.js";
 export function createBalance() {
 
   const balance = new THREE.Group();
@@ -45,7 +46,7 @@ export function createBalance() {
   // WEIGHING PLATE
   // =========================
 
-  const plate = new THREE.Mesh(
+  const pan = new THREE.Mesh(
 
     new THREE.CylinderGeometry(1.2, 1.2, 0.2, 64),
 
@@ -56,9 +57,9 @@ export function createBalance() {
     })
   );
 
-  plate.position.y = 1.2;
+  pan.position.y = 1.2;
 
-  balance.add(plate);
+  balance.add(pan);
 
   // =========================
   // DISPLAY SCREEN
@@ -134,19 +135,44 @@ export function createBalance() {
 
   balance.name = "balance";
 
-  const panSnap = new THREE.Object3D();
+  const snapPoint = new THREE.Object3D();
 
-  panSnap.position.set(
+  snapPoint.name = "balanceSnap";
+
+  snapPoint.position.set(
       0,
-      0.12,
+      1.26,
       0
   );
 
-  balance.add(panSnap);
 
-  registerSceneObject(
-      "balance_pan",
-      panSnap
-  );
-  return balance;
+  pan.add(snapPoint);
+
+  const helper = new THREE.Mesh(
+
+    new THREE.SphereGeometry(0.06),
+
+    new THREE.MeshBasicMaterial({
+
+        color:0xff0000
+
+    })
+
+);
+
+snapPoint.add(helper);
+
+console.log(
+    snapPoint.getWorldPosition(
+        new THREE.Vector3()
+    )
+);
+
+  registerSnapPoint(
+"balanceSnap",
+snapPoint
+);
+  registerSceneObject("balance", balance);
+
+return balance;
 }
